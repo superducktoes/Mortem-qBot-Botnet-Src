@@ -1,9 +1,20 @@
+yum install epel-release
+
 yum install deltarpm
 
 yum install httpd
 yum install iptables
 
+# Python 2 install
+wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+tar xzf Python-2.7.18.tgz
+cd Python-2.7.18
+./configure --enable-optimizations
+make install
+
 curl -O https://bootstrap.pypa.io/pip/2.7/get-pip.py
+python2 get-pip.py 
+
 pip2 install paramiko
 
 yum install python-paramiko nano screen gcc perl wget libzip unzip -y
