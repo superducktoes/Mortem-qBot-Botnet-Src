@@ -1,8 +1,11 @@
 # Tested on Rocky Linux v8.5
 yum install epel-release
 
-yum install httpd iptables wget upx
+yum install httpd iptables wget upx openssl-devel
 yum group install "Development Tools"
+
+# Might be optional depending on what's already installed
+yum install nano screen gcc perl wget libzip unzip -y
 
 # Python 2 install
 wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
@@ -15,8 +18,6 @@ curl -O https://bootstrap.pypa.io/pip/2.7/get-pip.py
 python2 get-pip.py 
 
 pip2 install paramiko
-
-yum install python-paramiko nano screen gcc perl wget libzip unzip -y
 
 gcc c7.c -w -o cnc -pthread
 
